@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\SquareController as S;
+use App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,18 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/hello', [S::class, 'hello'])->name('hello');
+
+Route::prefix('social')->group(function () {
+    Route::get('/', [SocialController::class, 'index'])->name('social-index');
+    Route::get('/list', [SocialController::class, 'list'])->name('social-list');
+    Route::post('/', [SocialController::class, 'store'])->name('social-store');
+    Route::get('/{social}', [SocialController::class, 'show'])->name('social-show');
+    Route::get('/{social}/edit', [SocialController::class, 'edit'])->name('social-edit');
+    Route::put('/{social}', [SocialController::class, 'update'])->name('social-update');
+    Route::delete('/{social}', [SocialController::class, 'destroy'])->name('social-destroy');
+});
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
